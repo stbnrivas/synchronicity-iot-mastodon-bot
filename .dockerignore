@@ -1,0 +1,10 @@
+deploy
+.env
+#.env_sample
+spec
+.rspec
+images
+mastodon_bot.log
+mlab-commands.md
+santander-eolic.png
+santander-solar.png

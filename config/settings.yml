@@ -1,0 +1,76 @@
+logs:
+  default_log_file: &default_log_file
+    filename: <%=ENV['LOG_FILE']%>
+  stdout_enable: &stdout_enable
+    stdout_enable: true
+    stdout_level: debug
+  stdout_disable: &stdout_disable
+    stdout_enable: false
+    stdout_level: debug
+  syslog_enable: &syslog_enable
+    syslog_enable: true
+    syslog_level: debug
+  syslog_disable: &syslog_disable
+    syslog_enable: false
+    syslog_level: debug
+
+mastodon_bots_space: &mastodon_bots_space
+  instance:
+    protocol: https
+    url: botsin.space
+    port: 443
+    access_token: <%=ENV['MASTODON_TOKEN']%>
+
+
+santander-hist-api: &santander-hist-api
+  protocol: https
+  url: historical.san.synchronicity-iot.eu/
+  port: 443
+
+aws_instance: &aws_instance
+    protocol: https
+    url: test.synchronicity.ridespark.com
+    port: 8080
+
+
+green_energy_measurement: &green_energy_measurement
+  # id: "urn:ngsi-ld:OffStreetParking:#{$config[:context_broker][:smart_city]}:#{vertical}:#{uid}#{suffix}"
+  id: urn:ngsi-ld:GreenEnergyMeasurement:santander:greenenergy:5c6ab6d95372df39200138b0
+  attr:
+    - solarPowerGenerated
+    - eolicPowerGenerated
+
+off_street_parking: &off_street_parking
+  #id: "urn:ngsi-ld:OffStreetParking:#{$config[:context_broker][:smart_city]}:#{vertical}:#{uid}#{suffix}"
+  id: urn:ngsi-ld:OffStreetParking:santander:parking:3717862a00f88c61
+  attr:
+    - availableSpotNumber
+
+bike_hire_docking_station: &bike_hire_docking_station
+  # id: "urn:ngsi-ld:BikeHireDockingStation:#{$config[:context_broker][:smart_city]}:#{vertical}:#{uid}#{suffix}"
+  id: urn:ngsi-ld:BikeHireDockingStation:santander:transportation:00000080A3B83E61
+  attr:
+    -availableBikeNumber
+
+historical_santander: &historical_santander
+  fiware_service_enable: true
+  fiware_service: santander
+
+
+development:
+  logs:
+    <<: *default_log_file
+    <<: *stdout_enable
+    <<: *syslog_disable
+  mastodon:
+    <<: *mastodon_bots_space
+  synchronicity:
+    smart_city: santander
+    historical:
+      <<: *aws_instance
+      <<: *historical_santander
+  entities:
+    off_street_parking:
+      <<: *off_street_parking
+    green_energy_measurement:
+      <<: *green_energy_measurement
