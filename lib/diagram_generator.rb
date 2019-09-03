@@ -17,9 +17,10 @@ module BikeIn
           data_grouping_by_hours[t.hour.to_i] << current_data[:value]
         end
 
-        # pp data
         data_digested = data_grouping_by_hours.map do |hour|
-          hour.map{ |c| c.to_f }.sum * 100 / hour.size
+          if !hour.nil?
+            hour.map{ |c| c.to_f }.sum * 100 / hour.size
+          end
         end
 
         g = Gruff::Line.new
